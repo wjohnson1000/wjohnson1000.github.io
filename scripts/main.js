@@ -46,7 +46,6 @@ var testTrends = [
         var articleURL = data.result.docs[0].source.enriched.url.url;
         var appendP = $("<a href=" + articleURL + ">" + articleTitle + "</a>");
         $("." + newsTopic).append(appendP);
-        new!
 
     })
       .fail(function() {
