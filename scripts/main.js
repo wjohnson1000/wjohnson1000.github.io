@@ -52,7 +52,7 @@ var twitterURL = "https://twitter.com/hashtag/";
   function getNews(alchemyAPIquery, newsTopic){
     $.ajax(alchemyAPIquery)
       .done(function(data) {
-        if(!data.result.docs){
+        if(!data.result){
           $.ajax({
             url: "https://www.reddit.com/search.json?q=" + newsTopic,
             success: function(data){
