@@ -111,7 +111,6 @@ $('main').on("keypress", function(e){
         }
     })
       .fail(function() {
-        // alert("error");
       })
     }
 
