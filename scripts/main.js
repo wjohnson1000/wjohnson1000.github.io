@@ -47,6 +47,7 @@ var testTrends = [
   }
   call();
 
+var twitterURL = "https://twitter.com/hashtag/";
 
   function getNews(alchemyAPIquery, newsTopic){
     $.ajax(alchemyAPIquery)
@@ -55,20 +56,25 @@ var testTrends = [
           $.ajax({
             url: "https://www.reddit.com/search.json?q=" + newsTopic,
             success: function(data){
-                        for (var i = 0; i < 3; i++) {
-                          var articleTitle = data.data.children[i].data.title.substring(0, 50);
-                          var articleURL = data.data.children[i].data.url;
-                          var $newsLink = $("<a href='" + articleURL + "'>" + articleTitle + "</a>");
-                          $("." + newsTopic.replace(/\s+/g, '') + "> p").hide();
-                          $("." + newsTopic.replace(/\s+/g, '')).append($newsLink);
-                          $("." + newsTopic.replace(/\s+/g, '') + "> a").css({
-                            "color": "white",
-                            "font-size": "150%",
-                            "text-decoration": "none",
-                            "padding": "10px 0"
-                          })
-                        }
-                      },
+              var responseObject = data.length;
+              if (responseObject.length == 0){
+                $("." + newsTopic.replace(/\s+/g, '') + "> p").hide();
+                $("<a href='" + twitterURL + 'newsTopic' + "'>" + newsTopic + "</a>");
+              }
+                for (var i = 0; i < 3; i++) {
+                  var articleTitle = data.data.children[i].data.title.substring(0, 50);
+                  var articleURL = data.data.children[i].data.url;
+                  var $newsLink = $("<a href='" + articleURL + "'>" + articleTitle + "</a>");
+                  $("." + newsTopic.replace(/\s+/g, '') + "> p").hide();
+                  $("." + newsTopic.replace(/\s+/g, '')).append($newsLink);
+                  $("." + newsTopic.replace(/\s+/g, '') + "> a").css({
+                    "color": "white",
+                    "font-size": "150%",
+                    "text-decoration": "none",
+                    "padding": "10px 0"
+                  })
+                }
+              },
             dataType: "json"
           });
         } else {

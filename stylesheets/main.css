@@ -45,7 +45,7 @@ footer {
   footer h1 {
     font-size: 300%; }
 
-@media (max-width: 600px) {
+@media (max-width: 700px) {
   .row {
     flex-flow: column; }
   .trend {
