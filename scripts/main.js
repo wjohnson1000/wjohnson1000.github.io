@@ -3,9 +3,9 @@ $(document).ready(function(){
 //   alert('loaded');
 // }
 // var alchemyAPIquery = "https://gateway-a.watsonplatform.net/calls/data/GetNews?outputMode=json&start=now-1d&end=now&count=5&q.enriched.url.enrichedTitle.keywords.keyword.text=" + selectedTopic + "&return=enriched.url.url,enriched.url.title&apikey=884243d26352312be01ce6cfcfb5cf276e9000a2";
-var testTrends = [
-  "trend1trend1trend1trend1trend1trend1", "trend2", "trend3", "trend4", "trend5", "trend6"
-]
+// var testTrends = [
+//   "trend1trend1trend1trend1trend1trend1", "trend2", "trend3", "trend4", "trend5", "trend6"
+// ]
 // https://github.com/jublonet/codebird-js
   var cb = new Codebird;
   cb.setBearerToken("AAAAAAAAAAAAAAAAAAAAAK97igAAAAAAL6M3uxb0OEWglYZcJpxq89e46zY%3Dt682yccM1IgilC04xfWysYugpZ2ZzmaLpIcvNTB9L6xhdjaAXC");
@@ -45,9 +45,31 @@ var testTrends = [
       true // this parameter required
     );
   }
-  call();
 
-var twitterURL = "https://twitter.com/hashtag/";
+call();
+// $trendContainers.hide();
+
+function enterName(){
+    var userName = $('.button').prev().val();
+    localStorage.setItem('userName', userName);
+    $('footer').append("<h1>" + userName + "</h1>");
+    $('footer h1:last-child').addClass(userName.replace(/\s+/g, ''));
+    $('form').hide();
+    $('.row').css('display', 'flex');
+    $('footer').css('display', 'flex');
+  }
+// var userName = localStorage.getItem("userName");
+
+$('.button').on("click", enterName);
+$('main').on("keypress", function(e){
+  if (e.which == 13){
+    e.preventDefault;
+    enterName();
+    $(this).off("keypress");
+    return false;
+  }
+});
+
 
   function getNews(alchemyAPIquery, newsTopic){
     $.ajax(alchemyAPIquery)
@@ -99,17 +121,34 @@ var twitterURL = "https://twitter.com/hashtag/";
   })
 //window.open, window.location.href for new tabs
 
-
+var history = [];
   $trendContainers.on("click", "p", function(){
     var newsTopic = $(this).text().replace("#",'');
     var alchemyAPIquery = "https://gateway-a.watsonplatform.net/calls/data/GetNews?outputMode=json&start=now-1d&end=now&count=5&q.enriched.url.enrichedTitle.keywords.keyword.text=" + newsTopic + "&return=enriched.url.url,enriched.url.title&apikey=884243d26352312be01ce6cfcfb5cf276e9000a2";
     getNews(alchemyAPIquery, newsTopic);
+    history.push($(this).text());
+    localStorage.setItem(localStorage.getItem('userName') + " history", history);
   })
 
-  $('footer').on("click", "h1", function(){
+  $('.refresh').on("click", function(){
     $trendContainers.empty();
-    // testCall();
     call();
   })
+
+var userSwitch =true;
+
+    $('footer').on("click", "h1:not(.refresh)", function(){
+      if (userSwitch){
+      var displayHistory = localStorage.getItem(localStorage.getItem('userName') + ' history').split(",");
+      $('footer').append("<div></div>");
+        for(i = 0; i < displayHistory.length; i += 1){
+          $('footer > div').append("<p>" + displayHistory[i] + "</p>");
+        }
+        userSwitch = !userSwitch;
+      } else {
+        $('footer > div').remove();
+        userSwitch = !userSwitch;
+      }
+    })
 
 })
