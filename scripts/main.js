@@ -56,11 +56,6 @@ var twitterURL = "https://twitter.com/hashtag/";
           $.ajax({
             url: "https://www.reddit.com/search.json?q=" + newsTopic,
             success: function(data){
-              var responseObject = data.length;
-              if (responseObject.length == 0){
-                $("." + newsTopic.replace(/\s+/g, '') + "> p").hide();
-                $("<a href='" + twitterURL + 'newsTopic' + "'>" + newsTopic + "</a>");
-              }
                 for (var i = 0; i < 3; i++) {
                   var articleTitle = data.data.children[i].data.title.substring(0, 50);
                   var articleURL = data.data.children[i].data.url;
