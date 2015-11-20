@@ -51,13 +51,12 @@ var testTrends = [
   function getNews(alchemyAPIquery, newsTopic){
     $.ajax(alchemyAPIquery)
       .done(function(data) {
-        console.log(data);
         if(!data.result.docs){
           $.ajax({
             url: "https://www.reddit.com/search.json?q=" + newsTopic,
             success: function(data){
                         for (var i = 0; i < 3; i++) {
-                          var articleTitle = data.data.children[i].data.title.substring(0, 100);
+                          var articleTitle = data.data.children[i].data.title.substring(0, 50);
                           var articleURL = data.data.children[i].data.url;
                           var $newsLink = $("<a href='" + articleURL + "'>" + articleTitle + "</a>");
                           $("." + newsTopic.replace(/\s+/g, '') + "> p").hide();
@@ -74,9 +73,9 @@ var testTrends = [
           });
         } else {
           for (var i = 0; i < 3; i++) {
-            var articleTitle = data.result.docs[i].source.enriched.url.title.substring(0, 100);
+            var articleTitle = data.result.docs[i].source.enriched.url.title.substring(0, 50);
             var articleURL = data.result.docs[i].source.enriched.url.url;
-            var $newsLink = $("<a href=" + articleURL + ">" + articleTitle + "</a>");
+            var $newsLink = $("<a href='" + articleURL + "'>" + articleTitle + "</a>");
             $("." + newsTopic.replace(/\s+/g, '') + "> p").hide();
             $("." + newsTopic.replace(/\s+/g, '')).append($newsLink);
             $("." + newsTopic.replace(/\s+/g, '') + "> a").css({
