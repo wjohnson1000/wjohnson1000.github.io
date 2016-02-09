@@ -1,30 +1,13 @@
 $(document).ready(function(){
-// if(jQuery){
-//   alert('loaded');
-// }
+
 // var alchemyAPIquery = "https://gateway-a.watsonplatform.net/calls/data/GetNews?outputMode=json&start=now-1d&end=now&count=5&q.enriched.url.enrichedTitle.keywords.keyword.text=" + selectedTopic + "&return=enriched.url.url,enriched.url.title&apikey=884243d26352312be01ce6cfcfb5cf276e9000a2";
-// var testTrends = [
-//   "trend1trend1trend1trend1trend1trend1", "trend2", "trend3", "trend4", "trend5", "trend6"
-// ]
-// https://github.com/jublonet/codebird-js
   var cb = new Codebird;
   cb.setBearerToken("AAAAAAAAAAAAAAAAAAAAAK97igAAAAAAL6M3uxb0OEWglYZcJpxq89e46zY%3Dt682yccM1IgilC04xfWysYugpZ2ZzmaLpIcvNTB9L6xhdjaAXC");
-  // I created this CORS proxy using the codebird cors proxy source https://github.com/jublonet/codebird-cors-proxy/
-  // If you comment out this line, it will use the default proxy created by the codebird author https://api.jublo.net/codebird/
-  // cb.setProxy('https://codebird-proxy.herokuapp.com/');
-  //https://github.com/jublonet/codebird-js#requests-with-app-only-auth
-  //https://github.com/jublonet/codebird-js#mapping-api-methods-to-codebird-function-calls
-  // var twitterName = document.getElementsById('twitter-seacrh').val();
   var params = {
     id:  23424977 // yahoo WOEID for USA
-    };
+  };
 
   var $trendContainers = $('.trend');
-  // function testCall(){$trendContainers.each(function(i){
-  //       $(this).append("<p>"+ testTrends[i] +"</p>")
-  //     })
-  //   }
-  // testCall();
   function call(){cb.__call(
       "trends_place",
       params,
@@ -47,7 +30,6 @@ $(document).ready(function(){
   }
 
 call();
-// $trendContainers.hide();
 
 function enterName(){
     var userName = $('.button').prev().val();
@@ -58,7 +40,6 @@ function enterName(){
     $('.row').css('display', 'flex');
     $('footer').css('display', 'flex');
   }
-// var userName = localStorage.getItem("userName");
 
 $('.button').on("click", enterName);
 $('main').on("keypress", function(e){
@@ -118,7 +99,6 @@ $('main').on("keypress", function(e){
     event.preventDefault();
     window.open($(this).attr("href"));
   })
-//window.open, window.location.href for new tabs
 
 var history = [];
   $trendContainers.on("click", "p", function(){
@@ -135,19 +115,17 @@ var history = [];
   })
 
 var userSwitch =true;
-
-    $('footer').on("click", "h1:not(.refresh)", function(){
-      if (userSwitch){
-      var displayHistory = localStorage.getItem(localStorage.getItem('userName') + ' history').split(",");
-      $('footer').append("<div></div>");
-        for(i = 0; i < displayHistory.length; i += 1){
-          $('footer > div').append("<p>" + displayHistory[i] + "</p>");
-        }
-        userSwitch = !userSwitch;
-      } else {
-        $('footer > div').remove();
-        userSwitch = !userSwitch;
+  $('footer').on("click", "h1:not(.refresh)", function(){
+    if (userSwitch){
+    var displayHistory = localStorage.getItem(localStorage.getItem('userName') + ' history').split(",");
+    $('footer').append("<div></div>");
+      for(i = 0; i < displayHistory.length; i += 1){
+        $('footer > div').append("<p>" + displayHistory[i] + "</p>");
       }
-    })
-
+      userSwitch = !userSwitch;
+    } else {
+      $('footer > div').remove();
+      userSwitch = !userSwitch;
+    }
+  })
 })
